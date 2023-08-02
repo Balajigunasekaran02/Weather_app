@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import weatherTypes from "./WeatherImages";
+import notFound from "./assets/NotFound.png";
 
 const Api_key = "";
 function App() {
@@ -14,7 +15,16 @@ function App() {
     fetch(URL)
       .then((res) => res.json())
       .then((data) => {
-        //console.log(data);
+        setApiData(null);
+        console.log(data);
+        if (data.cod == 404 || data.cod == 400) {
+          setShowWeather([
+            {
+              type: "Not Found",
+              img: notFound,
+            },
+          ]);
+        }
         setShowWeather(
           weatherTypes.filter(
             (weather) => weather.type === data.weather[0].main
@@ -42,7 +52,7 @@ function App() {
             placeholder="Enter Your location"
           />
           <button onClick={fetchWeather} className="w-8 p-1">
-            <img src={weatherTypes[11].img} alt="search" />
+            <img src={weatherTypes[10].img} alt="search" />
           </button>
         </div>
         <div
@@ -62,29 +72,40 @@ function App() {
               <div className="text-center flex flex-col gap-6 mt-10">
                 {apiData && (
                   <p className="text-xl font-semibold">
-                    {apiData.name + "," + apiData.sys.country}
+                    {apiData?.name + "," + apiData?.sys?.country}
                   </p>
                 )}
                 <img
                   className="w-52 mx-auto"
-                  src={showWeather[0].img}
-                  alt={showWeather[0].type}
+                  src={showWeather[0]?.img}
+                  alt={showWeather[0]?.type}
                 />
                 <h3 className="text-2xl font-bold text-zinc-800">
-                  {showWeather[0].type}
+                  {showWeather[0]?.type}
                 </h3>
-                <>
-                  <div className="flex justify-center">
-                    <img
-                      src={weatherTypes[8].img}
-                      alt={weatherTypes[8].type}
-                      className="h-9 mt-1"
-                    />
-                    <h2 className="text-4xl font-extrabold">
-                      {apiData.main.temp}&#176;C
-                    </h2>
-                  </div>
-                </>
+                {apiData && (
+                  <>
+                    <div className="flex justify-evenly">
+                      <img
+                        src={weatherTypes[8].img}
+                        alt={weatherTypes[8].type}
+                        className="h-9 mt-1"
+                      />
+                      <h2 className="text-4xl font-extrabold">
+                        {apiData?.main?.temp}&#176;C
+                      </h2>
+
+                      <img
+                        src={weatherTypes[11].img}
+                        alt={weatherTypes[11].type}
+                        className="h-9 mt-1"
+                      />
+                      <h2 className="text-4xl font-extrabold">
+                        {apiData?.main?.humidity}%
+                      </h2>
+                    </div>
+                  </>
+                )}
               </div>
             )
           )}

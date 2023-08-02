@@ -8,8 +8,8 @@ import Smoke from "./assets/Smoke.png";
 import Snow from "./assets/Snow.png";
 import temp from "./assets/temp.png";
 import loading from "./assets/loading.png";
-import notFound from "./assets/NotFound.png";
 import search from "./assets/search.png";
+import Humidity from "./assets/humidity.png";
 
 const WeatherTypes = [
   {
@@ -53,12 +53,12 @@ const WeatherTypes = [
     img: loading,
   },
   {
-    type: "Not Found",
-    img: notFound,
-  },
-  {
     type: "Search",
     img: search,
+  },
+  {
+    type: "humidity",
+    img: Humidity,
   },
 ];
 
